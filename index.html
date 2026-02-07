@@ -5,147 +5,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Birthday Surprise for Aalaa 🎉</title>
 <style>
-  body {
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    background: #ffe6f0;
-    overflow-x: hidden;
-    padding: 50px;
-    position: relative;
-  }
-  h1 {
-    font-size: 3em;
-    color: #ff3366;
-    margin-bottom: 20px;
-    animation: pop 0.5s ease;
-  }
-  @keyframes pop {
-    0% { transform: scale(0); }
-    100% { transform: scale(1); }
-  }
-  p {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-  }
-  button {
-    padding: 15px 30px;
-    margin: 10px;
-    font-size: 18px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    background: #ff6699;
-    color: white;
-    transition: 0.3s;
-  }
-  button:hover {
-    background: #ff3366;
-  }
-  #surprise {
-    display: none;
-    margin-top: 30px;
-  }
-  img {
-    width: 300px;
-    border-radius: 20px;
-    margin-top: 20px;
-  }
-  /* Hearts animation */
-  .heart {
-    position: absolute;
-    font-size: 24px;
-    color: #ff3366;
-    animation: float 4s linear infinite;
-  }
-  @keyframes float {
-    0% { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-800px) scale(1.5); opacity: 0; }
-  }
-</style>
+body{font-family:Arial,sans-serif;text-align:center;background:#ffe6f0;overflow:hidden;padding:50px;position:relative;margin:0}h1,h2{margin:0}#teaser{font-size:2em;color:#ff3366;margin-top:50px}button{padding:15px 30px;margin:20px;font-size:18px;border:none;border-radius:10px;cursor:pointer;background:#ff6699;color:white;transition:.3s}button:hover{background:#ff3366}#celebration{display:none}img{width:300px;border-radius:20px;margin-top:20px;}.heart{position:absolute;font-size:24px;color:#ff3366;animation:float 4s linear infinite}@keyframes float{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-800px) scale(1.5);opacity:0}}.name-fly{position:absolute;font-weight:bold;color:#ff33aa;font-size:18px;animation:flying 4s linear infinite}@keyframes flying{0%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-500px) rotate(180deg)}100%{transform:translateY(0) rotate(360deg)}}canvas{position:absolute;top:0;left:0;pointer-events:none}</style>
 </head>
 <body>
 
-<h1>🎉 Happy Birthday, Aalaa! 🎉</h1>
-<p>I have a little surprise for you. Do you want to see it?</p>
-
-<button onclick="showSurprise(true)">Yes</button>
-<button onclick="showSurprise(false)">No</button>
-
-<div id="surprise">
-  <h2>🥰 Happy Birthday, Aalaa! 🥰</h2>
-  <img src="https://i.imgur.com/2d6d9Nb.png" alt="Birthday Cake">
-  <p>Wishing you an amazing day filled with love, happiness, and laughter! ❤️</p>
+<!-- First teaser page -->
+<div id="teaser">
+  <h1>I have a surprise for you, Aalaa 🎁</h1>
+  <button onclick="startCelebration(true)">Yes</button>
+  <button onclick="startCelebration(false)">No</button>
 </div>
 
-<!-- Confetti container -->
+<!-- Celebration page -->
+<div id="celebration">
+  <h1>🎉 Happy Birthday, Aalaa! 🎉</h1>
+  <img src="https://i.imgur.com/2d6d9Nb.png" alt="Birthday Cake">
+  <p>Wishing you a day full of love, happiness & laughter! ❤️</p>
+</div>
+
 <canvas id="confetti"></canvas>
 
+<!-- Sound effect -->
+<audio id="cheer-sound" src="https://www.soundjay.com/human/applause-01.mp3"></audio>
+
 <script>
-function showSurprise(choice) {
-  if(choice) {
-    document.getElementById('surprise').style.display = 'block';
-    startConfetti();
+// Start celebration
+function startCelebration(choice){
+  if(choice){
+    document.getElementById('teaser').style.display='none';
+    document.getElementById('celebration').style.display='block';
+    document.getElementById('cheer-sound').play(); // play sound
     createHearts();
+    createFlyingNames();
+    startConfetti();
   } else {
     alert("Come on, click Yes to see your surprise! 😄");
   }
 }
 
 // Floating hearts
-function createHearts() {
-  for(let i=0; i<20; i++){
-    let heart = document.createElement('div');
-    heart.classList.add('heart');
-    heart.style.left = Math.random() * window.innerWidth + 'px';
-    heart.style.animationDuration = (2 + Math.random() * 3) + 's';
-    heart.innerText = '❤️';
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 4000);
+function createHearts(){
+  for(let i=0;i<30;i++){
+    let h=document.createElement('div');
+    h.className='heart';
+    h.style.left=Math.random()*window.innerWidth+'px';
+    h.style.animationDuration=(2+Math.random()*3)+'s';
+    h.innerText='❤️';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),4000);
   }
 }
 
-// Confetti animation
-function startConfetti() {
-  const canvas = document.getElementById('confetti');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  const ctx = canvas.getContext('2d');
-  const pieces = [];
-  for(let i=0; i<200; i++){
-    pieces.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 6 + 4,
-      d: Math.random() * 10 + 5,
-      color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-      tilt: Math.random() * 10 - 10
-    });
+// Flying names
+function createFlyingNames(){
+  for(let i=0;i<20;i++){
+    let n=document.createElement('div');
+    n.className='name-fly';
+    n.style.left=Math.random()*window.innerWidth+'px';
+    n.style.top=Math.random()*window.innerHeight+'px';
+    n.style.animationDuration=(3+Math.random()*2)+'s';
+    n.innerText='Aalaa';
+    document.body.appendChild(n);
+    setInterval(()=>{
+      n.style.left=Math.random()*window.innerWidth+'px';
+      n.style.top=Math.random()*window.innerHeight+'px';
+    },2000);
   }
-  function draw() {
+}
+
+// Confetti
+function startConfetti(){
+  const canvas=document.getElementById('confetti');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');
+  const pieces=[];
+  for(let i=0;i<200;i++)pieces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*6+4,d:Math.random()*10+5,color:`hsl(${Math.random()*360},100%,50%)`,tilt:Math.random()*10-10});
+  function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    for(let i=0; i<pieces.length; i++){
-      const p = pieces[i];
+    for(let i=0;i<pieces.length;i++){
+      const p=pieces[i];
       ctx.beginPath();
-      ctx.moveTo(p.x + p.tilt + p.r/2, p.y);
-      ctx.lineTo(p.x + p.tilt, p.y + p.r);
-      ctx.lineTo(p.x + p.tilt - p.r/2, p.y);
-      ctx.fillStyle = p.color;
+      ctx.moveTo(p.x+p.tilt+p.r/2,p.y);
+      ctx.lineTo(p.x+p.tilt,p.y+p.r);
+      ctx.lineTo(p.x+p.tilt-p.r/2,p.y);
+      ctx.fillStyle=p.color;
       ctx.fill();
     }
     update();
   }
   function update(){
-    for(let i=0; i<pieces.length; i++){
-      const p = pieces[i];
-      p.y += Math.cos(0.01 + p.d) + 3 + p.r/2;
-      p.x += Math.sin(0.01) * 2;
-      if(p.y > canvas.height) {
-        p.y = -10;
-        p.x = Math.random() * canvas.width;
-      }
+    for(let i=0;i<pieces.length;i++){
+      const p=pieces[i];
+      p.y+=Math.cos(0.01+p.d)+3+p.r/2;
+      p.x+=Math.sin(0.01)*2;
+      if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;}
     }
   }
-  setInterval(draw, 20);
+  setInterval(draw,20);
 }
 </script>
 
