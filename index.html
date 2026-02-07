@@ -25,8 +25,8 @@ body{font-family:Arial,sans-serif;text-align:center;background:#ffe6f0;overflow:
 
 <canvas id="confetti"></canvas>
 
-<!-- Sound effect -->
-<audio id="cheer-sound" src="https://www.soundjay.com/human/applause-01.mp3"></audio>
+<!-- Fun birthday sound effect -->
+<audio id="cheer-sound" src="https://www.soundjay.com/button/sounds/button-3.mp3"></audio>
 
 <script>
 // Start celebration
@@ -34,7 +34,7 @@ function startCelebration(choice){
   if(choice){
     document.getElementById('teaser').style.display='none';
     document.getElementById('celebration').style.display='block';
-    document.getElementById('cheer-sound').play(); // play sound
+    document.getElementById('cheer-sound').play(); // play cute birthday sound
     createHearts();
     createFlyingNames();
     startConfetti();
